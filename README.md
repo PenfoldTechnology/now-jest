@@ -1,10 +1,10 @@
-# now-static-build-storybook
+# now-jest
 
 This package provides a
 [builder](https://zeit.co/docs/v2/deployments/builders/overview#when-to-use-builders)
-for Zeit's [Now 2.0](https://zeit.co/blog/now-2) that compiles [Storybooks](https://github.com/storybooks/storybook)
+for Zeit's [Now 2.0](https://zeit.co/blog/now-2) that runs [Jest](https://jestjs.io/) tests
 
-`now-static-build` always runs the `now-build` script, but we wanted to reuse our the `package.json` file to deploy a storybook
+`now-static-build` always runs the `now-build` script, but we wanted to reuse our `package.json` for multiple builds
 
 Based on https://github.com/zeit/now-builders/tree/master/packages/now-static-build
 
@@ -19,19 +19,19 @@ Your `now.json` `"builds"` section should look something like this:
 {
   "builds": [
     {
-      "src": ".storybook/config.js",
-      "use": "now-static-build-storybook"
+      "src": "jest.config.js",
+      "use": "now-build-jest"
     }
   ]
 }
 ```
 
-Your `package.json` needs a script named `now-build-storybook`. By default the `dist` directory gets merged with your site, so `dist/storybook` will mount it at `/storybook`
+Your `package.json` needs a script named `now-build-jest`. I'm sure we could remove this step and call jest directly
 
 ```json
 {
   "scripts": {
-    "now-build-storybook": "build-storybook -o dist/storybook"
+    "now-build-jest": "jest --ci --bail"
   }
 }
 ```
